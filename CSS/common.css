@@ -1,0 +1,15 @@
+.main {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+}
+.left_split {
+    width: 50%;
+}
+
+.right_split {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
