@@ -1,20 +1,22 @@
 {
-  "name": "debateHub",
-  "version": "0.0.5",
-  "description": "GitHubPageで管理するページをChrome上から変更・プルリクエストできます",
+  "name": "DebateHub",
+  "version": "0.1.9",
+  "description": "テスト",
   "content_scripts": [{
     "matches": ["<all_urls>"],
-    "js": ["contents.js"]
+    "js": ["content.js"]
   }],
   "background": {
     "scripts": ["background.js"],
     "persistent": false
   },
+  "browser_action": {
+    "default_title": "SAVE"
+  },
   "permissions": [
     "tabs",
     "activeTab",
-    "storage",
-    "contextMenus"
+    "storage"
   ],
   "options_ui": {
     "page": "config.html",

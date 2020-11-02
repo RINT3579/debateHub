@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>PRView</title>
+    <style>
+        .main {
+            display: flex;
+            flex-direction: row;
+            width: 100vw;
+            height: 100vh;
+        }
+        .left_split {
+            width: 50%;
+        }
+
+        .right_split {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            zoom: 150%;
+            margin: 5px 25px 5px 25px;
+            padding: 10px 10px 10px 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <div class="left_split">
+        <iframe id="if_1" width="100%" height="100%"></iframe>
+    </div>
+    <div class="right_split">
+        名前：<input type="text" name="name" size="20">
+        <br>
+        メールアドレス:<input type="email" name="email" size="30" maxlength="50">
+        <br>
+        コミットメッセージ: <br>
+        <textarea name="commit" rows="4" cols="40" placeholder="〇〇を修正しました"></textarea>
+        <br>
+        プルリクエストタイトル:
+        <input type="text" name="PR" size="30">
+        <br>
+        <input type="submit" value="プルリクエストを行う">
+    </div>
+</div>
+<script src="view.js"></script>
+</body>
+</html>
