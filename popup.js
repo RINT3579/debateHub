@@ -1,11 +1,8 @@
-let code
-let content;
-let filename;
-
-const pr_mode = () => {
+const pr_option = () => {
+    console.log("正常動作");
     chrome.tabs.query( {active:true, currentWindow:true}, function(tabs){
         console.log("押された");
-        chrome.tabs.sendMessage(tab[0].id, {
+        chrome.tabs.sendMessage(tabs[0].id, {
                 command: "CODESAVE"
             },
             function(msg) {
@@ -19,3 +16,10 @@ const pr_mode = () => {
             });
     })
 }
+const diff_option = () => {
+
+
+
+}
+document.getElementById('PR').addEventListener('click', pr_option);
+document.getElementById('DIFF').addEventListener('click', diff_option);
