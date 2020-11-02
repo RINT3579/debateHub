@@ -1,6 +1,21 @@
+const chrome_localset = (key,value) => {
+    chrome.storage.local.set({ key : value}, function () {
+    });
+}
+
+
 const pr_option = () => {
     console.log("正常動作");
     chrome.tabs.query( {active:true, currentWindow:true}, function(tabs){
+        const url = tabs[0].url;
+        let URLa = decodeURIComponent(url);
+        console.log('URLa',URLa);
+        let URLb = URLa.split("github.io/");
+        console.log('URLb',URLb);
+        var URL = URLb[1].split("/");
+        chrome_localset("repo",URL[0]);
+        chrome_localset("file",URL[1]);
+
         console.log("押された");
         chrome.tabs.sendMessage(tabs[0].id, {
                 command: "CODESAVE"
