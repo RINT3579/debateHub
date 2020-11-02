@@ -20,7 +20,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     chrome.storage.local.set({'code': result}, function () {
     });
 
-    sleep(3000);
+    sleep(1000);
 
     sendResponse(result);
 
