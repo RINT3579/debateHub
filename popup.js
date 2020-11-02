@@ -1,8 +1,15 @@
-const chrome_localset = (key,value) => {
-    chrome.storage.local.set({ key : value}, function () {
+const chrome_localset = (keys,values) => {
+    chrome.storage.local.set({ [keys] : values}, function () {
     });
 }
 
+const htmlspecialchars = (str) =>{
+    return (str + '').replace(/&/g,'&amp;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#039;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;');
+}
 
 const pr_option = () => {
     console.log("正常動作");
@@ -13,8 +20,8 @@ const pr_option = () => {
         let URLb = URLa.split("github.io/");
         console.log('URLb',URLb);
         var URL = URLb[1].split("/");
-        chrome_localset("repo",URL[0]);
-        chrome_localset("file",URL[1]);
+        chrome_localset('repo',URL[0]);
+        chrome_localset('file',URL[1]);
 
         console.log("押された");
         chrome.tabs.sendMessage(tabs[0].id, {
