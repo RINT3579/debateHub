@@ -1,52 +1,61 @@
-let username;
-let token;
-
-let commit_username;
+let today;
+let owner;
+let name;
 let email;
 let repo;
-let commit_message;
-let filename;
-let pr_title;
-let pr_comment
-var datas
-let file_code;
+let title;
+let body;
+let file;
+let message;
+let branch = 'tool_develop';
+let token;
+let content;
+
+let refs = '';
+let tree = '';
+let blob = '';
+let newtree = '';
+let newcommit = '';
+
+function date(date, format) {
+
+    if (!format) {
+        format = 'YYYY-MM-DDThh:mm:ssZ'
+    }
+
+    format = format.replace(/YYYY/g, date.getFullYear());
+    format = format.replace(/MM/g, ('0' + (date.getMonth() + 1)).slice(-2));
+    format = format.replace(/DD/g, ('0' + date.getDate()).slice(-2));
+    format = format.replace(/hh/g, ('0' + date.getHours()).slice(-2));
+    format = format.replace(/mm/g, ('0' + date.getMinutes()).slice(-2));
+    format = format.replace(/ss/g, ('0' + date.getSeconds()).slice(-2));
+
+    return format;
+}
 
 function sleep(waitMsec) {
     var startMsec = new Date();
 
     while (new Date() - startMsec < waitMsec);
 }
-const chrome_localset = (key,key2,key3,key4,key5,value,value2,value3,value4,value5) => {
-    chrome.storage.local.set({ [key] : value, [key2] : value2,[key3] : value3,[key4] : value4,[key5]:value5}, function () {
+const post_Pull = () =>{
+    console.log("ここまでできてるか確認_範囲外(post_pull)",name,email,message,title,body,owner,token,repo,file,content);
+}
+
+const pull_Ready = () => {
+     name = htmlspecialchars(document.getElementById('name').value);
+     email = htmlspecialchars(document.getElementById('email').value);
+     message = htmlspecialchars(document.getElementById('commit').value);
+     title = htmlspecialchars(document.getElementById('PRtitle').value);
+     body = htmlspecialchars(document.getElementById('PRcomment').value);
+     chrome.storage.local.get(['user','token','repo','file','base64'], function(result) {
+        owner = result.user;
+        token = result.token;
+        repo = result.repo;
+        file = result.file;
+        content = result.base64;
+        post_Pull();
     });
 }
 
-const pull_chrome_get = () => {
-    chrome.storage.local.get(["user","token","name","email","repo","commit","file","PRtitle","PRcomment"], function (value) {
-        username = value.user;
-        token = value.token;
-        commit_username = value.name;
-        email = value.email;
-        repo = value.repo;
-        commit_message = value.commit;
-        filename = value.file;
-        pr_title = value.PRtitle;
-        pr_comment = value.PRcomment;
-    });
-}
-
-const post_pullrequest = () => {
-    const name = htmlspecialchars(document.getElementById('name').value);
-    const email = htmlspecialchars(document.getElementById('email').value);
-    const commit = htmlspecialchars(document.getElementById('commit').value);
-    const PRtitle = htmlspecialchars(document.getElementById('PRtitle').value);
-    const PRcomment = htmlspecialchars(document.getElementById('PRcomment').value);
-    console.log("プル前に情報が取れるか",name,email);
-    chrome_localset('name','email','commit','PRtitle','PRcomment',name,email,commit,PRtitle,PRcomment);
-    alert("PRを行いました");
-    pull_chrome_get();
-    sleep(0);
-    console.log(email,repo,filename);
-}
-
-document.getElementById('PR').addEventListener('click', post_pullrequest);
+document.getElementById('PR').addEventListener('click', pull_Ready);
