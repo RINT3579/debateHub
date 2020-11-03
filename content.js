@@ -1,5 +1,6 @@
 let head = '';
 let body = '';
+let base64content = '';
 let result = '';
 
 function sleep(waitMsec) {
@@ -10,18 +11,15 @@ function sleep(waitMsec) {
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     if (msg.command === "CODESAVE") {
-        body = document.getElementsByTagName("*")[0].outerHTML;
-        result = body;
+        result = document.getElementsByTagName("*")[0].outerHTML;
+        base64content = window.btoa(unescape(encodeURIComponent(result)));
+        chrome.storage.local.set({'code': result,'base64':base64content}, function () {
+        });
     }
     else{
-        result = 'ERROR';
+        result = 'SAVE_ERR';
     }
-
-    chrome.storage.local.set({'code': result}, function () {
-    });
-
-    sleep(3000);
-
+    sleep(1000);
     sendResponse(result);
 
 });

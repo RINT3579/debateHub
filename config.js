@@ -17,7 +17,7 @@ function restore_options () {
     });
 }
 
-function htmlspecialchars(str){
+const htmlspecialchars = (str) =>{
     return (str + '').replace(/&/g,'&amp;')
         .replace(/"/g,'&quot;')
         .replace(/'/g,'&#039;')
