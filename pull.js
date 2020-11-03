@@ -81,7 +81,7 @@ const makeBlob = (owner,repo,content,token) => {
         "token "+ token
     );
     request.responseType = 'json';
-    const parameters = '{"content":"'+ token +'","encoding":"base64"}';
+    const parameters = '{"content":"'+ content +'","encoding":"base64"}';
     request.send(parameters);
     return request;
 }
