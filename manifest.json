@@ -1,6 +1,6 @@
 {
   "name": "DebateHub",
-  "version": "5.5.1",
+  "version": "5.6.1",
   "description": "テスト",
   "content_scripts": [{
     "matches": ["<all_urls>"],
@@ -19,9 +19,11 @@
     "activeTab",
     "storage"
   ],
+  "options_page": "config.html",
   "options_ui": {
     "page": "config.html",
-    "chrome_style": true
+    "chrome_style": true,
+    "open_in_tab": false
   },
   "manifest_version": 2
 }
