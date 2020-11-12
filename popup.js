@@ -52,7 +52,8 @@ const diff_option = () => {
         let URLb = URLa.split("https://");
         console.log('URLb',URLb);
         let URL = URLb[1].split("/");
-        if (URL[3] === "pulls"){
+        console.log('URL',URL);
+        if (URL[3] === "pull"){
             chrome.tabs.create({
                 url:"diff.html",
                 selected:true

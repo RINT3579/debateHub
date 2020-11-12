@@ -269,16 +269,21 @@ const pull_Ready = () => {
      message = htmlspecialchars(document.getElementById('commit').value);
      title = htmlspecialchars(document.getElementById('PRtitle').value);
      body = htmlspecialchars(document.getElementById('PRcomment').value);
-    chrome.storage.local.set({'name': name,'email':email}, function () {
-        chrome.storage.local.get(['user','token','repo','file','base64'], function(result) {
-            owner = result.user;
-            token = result.token;
-            repo = result.repo;
-            file = result.file;
-            content = result.base64;
-            post_Pull();
-        });
-    });
+     if (name == "" || email == "" || message == "" || title == "" || body == "") {
+         alert("入力内容に不備があります");
+     }
+     else {
+         chrome.storage.local.set({'name': name,'email':email}, function () {
+             chrome.storage.local.get(['user','token','repo','file','base64'], function(result) {
+                 owner = result.user;
+                 token = result.token;
+                 repo = result.repo;
+                 file = result.file;
+                 content = result.base64;
+                 post_Pull();
+             });
+         });
+     }
 }
 
 
