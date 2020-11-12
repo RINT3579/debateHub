@@ -31,22 +31,20 @@
     </div>
     <div class="right_split">
         <div id="branch_view"></div>
-            <p>
-                名前： <br> <input type="text" id="name" size="20" required>
-            </p>
-            <p>
-                メールアドレス: <br> <input type="email" id="email" size="30" maxlength="50" required>
-            </p>
-            <p>
-                コミットメッセージ: <br> <textarea id="commit" rows="4" cols="40" placeholder="〇〇を修正しました" required></textarea>
-            </p>
-            <p>
-                プルリクエストタイトル: <br> <input type="text" id="PRtitle" size="30" required>
-            </p>
-            <p>
-                プルリクエストコメント: <br> <textarea id="PRcomment" rows="4" cols="40" placeholder="修正した〇〇を統合する" required></textarea>
-            </p>
-            <input type="submit" id="PR" value="プルリクエストを行う">
+        名前：<input type="text" id="name" size="20">
+        <br>
+        メールアドレス:<input type="email" id="email" size="30" maxlength="50">
+        <br>
+        コミットメッセージ: <br>
+        <textarea id="commit" rows="4" cols="40" placeholder="〇〇を修正しました"></textarea>
+        <br>
+        プルリクエストタイトル:
+        <input type="text" id="PRtitle" size="30">
+        <br>
+        プルリクエストコメント:
+        <textarea id="PRcomment" rows="4" cols="40" placeholder="修正した〇〇を統合する"></textarea>
+        <br>
+        <input type="submit" id="PR" value="プルリクエストを行う">
     </div>
 </div>
 <script src="view.js"></script>
