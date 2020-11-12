@@ -17,6 +17,36 @@ let blob = '';
 let newtree = '';
 let newcommit = '';
 
+
+const getbranch = () => {
+    chrome.storage.local.get(['user','repo','token'], function(result) {
+        let owner = result.user;
+        let repo = result.repo;
+        let token = result.token;
+
+        let view_branch = pullbranch(owner,repo,token);
+
+        view_branch.onload = function(){
+            let branch_view = document.getElementById('branch_view');
+            const pullbranh = this.response;
+            console.log("テスト",pullbranh.length);
+            branch_view.innerHTML = "<p>" + "選択中のブランチ：" + branch + "</p>";
+        }
+    });
+}
+
+const pullbranch = (owner,repo,token) => {
+    let request = new XMLHttpRequest();
+    request.open('GET', 'https://api.github.com/repos/'+owner+'/'+repo+'/branches');
+    request.setRequestHeader(
+        'Authorization',
+        "token" + token
+    );
+    request.responseType = 'json';
+    request.send();
+    return request;
+}
+
 function date(date, format) {
 
     if (!format) {
@@ -57,6 +87,7 @@ const getRef = (owner,repo,branch,token) => {
     );
     request.responseType = 'json';
     request.send();
+
     return request;
 }
 
@@ -161,6 +192,7 @@ const post_Pull = () =>{
         const refData = this.response;
         const object = refData.object;
         refs = object.sha;
+        console.log(this.status)
         console.log("ref",refs);
 
         const commitGet = getCommit(owner,repo,refs,token);
@@ -169,6 +201,7 @@ const post_Pull = () =>{
             const treeData = commitData.tree;
             tree = treeData.sha;
             console.log(commitData);
+            console.log(this.status)
             console.log(tree);
 
             const blobMake = makeBlob(owner,repo,content,token);
@@ -176,6 +209,7 @@ const post_Pull = () =>{
                 const blobData = this.response;
                 blob = blobData.sha;
                 console.log(blobData);
+                console.log(this.status)
                 console.log(blob);
 
                 const treeMake = makeTree(owner,repo,file,token,tree,blob);
@@ -183,6 +217,7 @@ const post_Pull = () =>{
                     const treeData = this.response;
                     newtree = treeData.sha;
                     console.log(treeData);
+                    console.log(this.status)
                     console.log(newtree);
 
                     const commitMake = makeCommit(owner,repo,token,name,email,message,refs,newtree,today);
@@ -190,17 +225,28 @@ const post_Pull = () =>{
                         const commitData = this.response;
                         newcommit = commitData.sha;
                         console.log(commitData);
+                        console.log(this.status)
                         console.log(newcommit);
 
                         const refLode = lodeRef(owner,repo,token,newcommit,branch);
                         refLode.onload = function(){
                             const refData = this.response;
+                            console.log(this.status)
                             console.log(refData);
 
                             const pullrequest = pullRequest(owner,repo,token,title,body,branch);
                             pullrequest.onload = function(){
-                                const pullrequestData = this.response;
-                                console.log(pullrequestData);
+                                console.log("コード",this.status);
+                                if(this.status != 201){
+                                    console.log("ifが選択");
+                                    alert("プルリクエストエラーが発生しました！（既にプルリクエストがないか確認してください）");
+                                }
+                                else {
+                                    console.log("elseが選択");
+                                    const pullrequestData = this.response;
+                                    console.log(pullrequestData);
+                                    alert("プルリクエストを行いました");
+                                }
                             }
                         }
                     }
@@ -223,14 +269,18 @@ const pull_Ready = () => {
      message = htmlspecialchars(document.getElementById('commit').value);
      title = htmlspecialchars(document.getElementById('PRtitle').value);
      body = htmlspecialchars(document.getElementById('PRcomment').value);
-     chrome.storage.local.get(['user','token','repo','file','base64'], function(result) {
-        owner = result.user;
-        token = result.token;
-        repo = result.repo;
-        file = result.file;
-        content = result.base64;
-        post_Pull();
+    chrome.storage.local.set({'name': name,'email':email}, function () {
+        chrome.storage.local.get(['user','token','repo','file','base64'], function(result) {
+            owner = result.user;
+            token = result.token;
+            repo = result.repo;
+            file = result.file;
+            content = result.base64;
+            post_Pull();
+        });
     });
 }
 
+
+document.addEventListener('DOMContentLoaded', getbranch);
 document.getElementById('PR').addEventListener('click', pull_Ready);

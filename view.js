@@ -11,8 +11,8 @@ const restore_option = () => {
     });
 }
 const getPage =  () => {
-    restore_option();
     chrome.storage.local.get(['code'], function(result) {
+        restore_option();
         console.log('viewCode ' + result.code);
         let code = result.code;
         let blob = new Blob([code], { type: 'text/html' });

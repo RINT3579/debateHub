@@ -1,6 +1,6 @@
 {
-  "name": "DebateHub",
-  "version": "5.6.1",
+  "name": "Debate_Hub_",
+  "version": "2.6.1",
   "description": "テスト",
   "content_scripts": [{
     "matches": ["<all_urls>"],
