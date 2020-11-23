@@ -7,14 +7,14 @@ let request1;
 let request2;
 
 
-const openRequest = (owner,repo,file,branch) => {
+const openRequest = (owner,repo,file,branch,token) => {
     let request = new XMLHttpRequest();
     request.open('GET', 'https://api.github.com/repos/'+owner+'/'
         +repo+'/contents/'+file+'?ref='+branch+' ', true);
 
     request.setRequestHeader(
         'Authorization',
-        "token b9b9c87f32b2079128018de848178c31c4dc3db4"
+        "token" + token
     );
     request.responseType = 'json';
     request.send();
@@ -42,8 +42,8 @@ const get_diff = () => {
 
         console.log("取れてるか確認",owner,token,repo,file,branch,M_branch);
 
-        request1 = openRequest(owner, repo, file, branch);
-        request2 = openRequest(owner, repo, file, M_branch);
+        request1 = openRequest(owner, repo, file, branch,token);
+        request2 = openRequest(owner, repo, file, M_branch,token);
 
         request1.onload = function() {
             const data = this.response;
