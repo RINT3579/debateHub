@@ -14,7 +14,7 @@ const openRequest = (owner,repo,file,branch,token) => {
 
     request.setRequestHeader(
         'Authorization',
-        "token" + token
+        "token "+ token
     );
     request.responseType = 'json';
     request.send();
