@@ -20,9 +20,9 @@
     "storage"
   ],
   "icons": {
-    "16": "images1/image16.png",
-    "48": "images1/image48.png",
-    "128": "images1/image128.png"
+    "16": "images/image16.png",
+    "48": "images/image48.png",
+    "128": "images/image128.png"
   },
   "options_page": "config.html",
   "options_ui": {
