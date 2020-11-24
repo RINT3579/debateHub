@@ -1,6 +1,6 @@
 {
   "name": "Debate_Hub",
-  "version": "1.1.6",
+  "version": "4.2.1",
   "description": "GitHubPagesで公開されているページを開発者ツールで書き換え,このツールでプルリクエストすることができます",
   "content_scripts": [{
     "matches": ["<all_urls>"],

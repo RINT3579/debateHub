@@ -280,6 +280,7 @@ const pull_Ready = () => {
                  repo = result.repo;
                  file = result.file;
                  content = result.base64;
+                 body = htmlspecialchars(document.getElementById('PRcomment').value) + '$' + file + '$';
                  post_Pull();
              });
          });

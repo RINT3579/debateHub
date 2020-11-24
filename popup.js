@@ -1,6 +1,15 @@
+
+let filename;
+
 const chrome_localset = (keys,values) => {
     chrome.storage.local.set({ [keys] : values}, function () {
     });
+}
+
+function sleep(waitMsec) {
+    var startMsec = new Date();
+
+    while (new Date() - startMsec < waitMsec);
 }
 
 const htmlspecialchars = (str) =>{
@@ -30,6 +39,7 @@ const pr_option = () => {
                 function(msg) {
                     code = msg;
                     console.log("result:", code);
+                    sleep(1000);
 
                     chrome.tabs.create({
                         url:"view.html",
@@ -45,23 +55,36 @@ const pr_option = () => {
 }
 const diff_option = () => {
     console.log("差分機能が選択されました");
-    chrome.tabs.query( {active:true, currentWindow:true}, function(tabs){
-        const url = tabs[0].url;
-        let URLa = decodeURIComponent(url);
-        console.log('URLa',URLa);
-        let URLb = URLa.split("https://");
-        console.log('URLb',URLb);
-        let URL = URLb[1].split("/");
-        console.log('URL',URL);
-        if (URL[3] === "pull"){
-            chrome.tabs.create({
-                url:"diff.html",
-                selected:true
-            })
+    chrome.tabs.query( {active:true, currentWindow:true}, function(req){
+        const url_ = req[0].url;
+        let URLa_ = decodeURIComponent(url_);
+        console.log('URLa',URLa_);
+        let URLb_ = URLa_.split("https://");
+        console.log('URLb',URLb_);
+        let URL_ = URLb_[1].split("/");
+        chrome_localset('repo',URL_[2]);
+        console.log('URL',URL_);
+
+        if (URL_[5] === "files"){
+            chrome.tabs.sendMessage(req[0].id, {
+                    command: "FILENAME"
+                },
+                function(msg) {
+                    filename = msg;
+                    console.log("filename_result:", filename);
+                    sleep(1000);
+
+                    chrome.tabs.create({
+                        url:"diff.html",
+                       selected:true
+                    })
+                });
         }
         else {
             let status = document.getElementById('DIFF_status');
-            status.innerHTML = "<p>プルリクエスト画面で使えます</p>";
+            status.innerHTML = "<p>プルリクエスト画面の</p>" +
+                               "<p><b>Files Changed</b>タブで</p>" +
+                               "<p>利用できます</p>";
         }
     })
 
